@@ -1,16 +1,24 @@
-# tv_guest_welcome
+# تطبيق ترحيب النزلاء الذكي (Smart Guest Welcome TV)
 
-A new Flutter project.
+تطبيق أندرويد أصلي (Native Kotlin) مصمم خصيصاً للشاشات الذكية (Android TV) لتقديم تجربة ترحيبية فاخرة ومخصصة للنزلاء.
 
-## Getting Started
+## المميزات الرئيسية
+- **سرعة فائقة**: تم بناؤه بلغة Kotlin الأصلية لضمان الفتح الفوري في أقل من ثانية.
+- **تحديث تلقائي عن بُعد**: يعتمد على نظام WebView Shell المرتبط بـ GitHub Pages، مما يتيح لك تغيير التصميم والمميزات دون إعادة تثبيت التطبيق.
+- **تشغيل تلقائي**: يفتح تلقائياً عند تشغيل التلفاز (Boot) وعند تشغيل الشاشة (Screen ON).
+- **نظام شاشة التوقف**: يعمل كواجهة ترحيبية وتختفي فور لمس الشاشة.
+- **ربط Supabase**: جلب بيانات النزلاء لحظياً بناءً على رقم الغرفة.
 
-This project is a starting point for a Flutter application.
+## المكونات التقنية
+1. **التطبيق (Android)**: غلاف ذكي مكتوب بـ Kotlin.
+2. **الواجهة (Web)**: صفحة HTML/JS مستضافة على GitHub Pages للتحكم في المحتوى.
+3. **قاعدة البيانات**: Supabase لإدارة بيانات الغرف والنزلاء.
 
-A few resources to get you started if this is your first Flutter project:
+## طريقة التشغيل
+1. ارفع المشروع إلى GitHub.
+2. فعل خاصية **GitHub Pages** للمستودع.
+3. قم ببناء ملف الـ APK باستخدام Android Studio من مجلد `android`.
+4. ثبت الـ APK على الشاشة وقم بتفعيل صلاحية "الظهور فوق التطبيقات الأخرى".
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+---
+تم التطوير بواسطة Trae AI لتقديم حلول ذكية لقطاع الضيافة.
