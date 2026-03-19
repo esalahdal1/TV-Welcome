@@ -22,8 +22,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         
-        // التحقق من صلاحية "الظهور فوق التطبيقات الأخرى"
-        checkOverlayPermission()
+        // تم إلغاء فحص الصلاحية يدوياً لتجنب تعليق الشاشات البسيطة
+        // checkOverlayPermission()
 
         val prefs = getSharedPreferences("TV_PREFS", Context.MODE_PRIVATE)
         val roomNumber = prefs.getString("room_number", null)
