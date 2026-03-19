@@ -64,8 +64,7 @@ class MainActivity : AppCompatActivity() {
         settings.cacheMode = WebSettings.LOAD_DEFAULT
         
         // الرابط النهائي - يتم تحديثه تلقائياً من GitHub Pages
-        // يجب استبدال <USERNAME> باسم حسابك في GitHub و <REPO_NAME> باسم المشروع
-        val baseUrl = "https://<USERNAME>.github.io/<REPO_NAME>/" 
+        val baseUrl = "https://esalahdal1.github.io/TV-Welcome/" 
         val finalUrl = "$baseUrl?room=$roomNumber"
         
         webView.webViewClient = object : WebViewClient() {
