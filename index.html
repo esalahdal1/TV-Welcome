@@ -88,11 +88,15 @@
                 }
             } catch (err) {
                 console.error('Error:', err);
-                nameElement.innerText = "أهلاً بك";
+                // لا نغير النص عند الخطأ ليبقى آخر اسم ناجح ظاهراً
             }
         }
 
+        // تشغيل الجلب لأول مرة
         fetchGuest();
+
+        // التحديث التلقائي كل 10 ثوانٍ
+        setInterval(fetchGuest, 10000);
     </script>
 </body>
 </html>
