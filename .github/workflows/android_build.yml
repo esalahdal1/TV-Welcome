@@ -5,7 +5,10 @@ on:
     branches: [ "main", "master" ]
   pull_request:
     branches: [ "main", "master" ]
-  workflow_dispatch: # يسمح بتشغيل البناء يدوياً
+  workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
   build:
