@@ -1,0 +1,16 @@
+.idea/
+.gradle/
+build/
+*.iml
+local.properties
+.DS_Store
+node_modules/
+# Python caches
+__pycache__/
+*.py[cod]
+*$py.class
+# Flutter (if any left)
+.dart_tool/
+.packages
+.pub-cache/
+.pub/
