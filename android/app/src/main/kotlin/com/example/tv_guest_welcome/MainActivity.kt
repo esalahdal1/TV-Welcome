@@ -56,12 +56,14 @@ class MainActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_main_web)
         
-        webView = findViewById(R.id.main_webview)
-        
+        // إعدادات الـ WebView لضمان السرعة والتحديث اللحظي
         val settings = webView.settings
         settings.javaScriptEnabled = true
         settings.domStorageEnabled = true
-        settings.cacheMode = WebSettings.LOAD_DEFAULT
+        
+        // إجبار التطبيق على عدم استخدام التخزين المؤقت لضمان رؤية التحديثات الجديدة
+        settings.cacheMode = WebSettings.LOAD_NO_CACHE
+        webView.clearCache(true)
         
         // الرابط النهائي - يتم تحديثه تلقائياً من GitHub Pages
         val baseUrl = "https://esalahdal1.github.io/TV-Welcome/" 
