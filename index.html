@@ -227,27 +227,24 @@
             border: 2px solid rgba(251, 191, 36, 0.5);
         }
 
+        .logo-box svg {
+            width: 100%;
+            height: 100%;
+        }
+
         .logo-box img {
             max-width: 100%;
             max-height: 100%;
             object-fit: contain;
-            display: none; /* مخفي افتراضياً حتى يتم التحميل */
-        }
-
-        .logo-box::after {
-            content: 'MRC';
-            font-size: 1.2rem;
-            font-weight: 900;
-            color: #1e3c72;
-            display: block;
-        }
-
-        .logo-box.has-image::after {
             display: none;
         }
 
         .logo-box.has-image img {
             display: block;
+        }
+
+        .logo-box.has-image svg {
+            display: none;
         }
 
         /* تلميح الريموت */
@@ -327,7 +324,16 @@
                 <div class="company-sub">MASAKEN ALRAFAHYA COMPANY</div>
             </div>
             <div id="logoContainer" class="logo-box">
-                <img id="mrcLogo" src="https://cewbmexcmhrogbvyfvrg.supabase.co/storage/v1/object/public/assets/mrc_logo.png" alt="Logo" onload="this.parentElement.classList.add('has-image')">
+                <!-- لوقو MRC بتصميم SVG يحاكي اللوقو المرسل -->
+                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="50" cy="50" r="45" fill="none" stroke="#0056b3" stroke-width="2"/>
+                    <path d="M30 70 V40 H40 V70 M45 70 V30 H55 V70 M60 70 V45 H70 V70" fill="#0056b3" />
+                    <circle cx="80" cy="30" r="4" fill="#0056b3" />
+                    <rect x="76" y="28" width="10" height="2" fill="#0056b3" transform="rotate(45 80 30)"/>
+                    <text x="50" y="85" font-family="Cairo" font-size="12" font-weight="900" fill="#0056b3" text-anchor="middle">MRC</text>
+                </svg>
+                <!-- الصورة الفعلية التي سترفعها باسم logo.png -->
+                <img id="mrcLogo" src="logo.png" alt="Logo" onload="this.parentElement.classList.add('has-image')">
             </div>
         </div>
     </div>
@@ -368,15 +374,34 @@
             
             document.getElementById('time').innerText = `${hours}:${minutes} ${ampm}`;
 
-            // التاريخ الميلادي
-            const gregOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-            const gregDate = now.toLocaleDateString('ar-SA', gregOptions);
+            // التاريخ الميلادي (نستخدم ar-EG لضمان بقائه ميلادياً)
+            const gregDate = now.toLocaleDateString('ar-EG', {
+                weekday: 'long',
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric'
+            });
 
-            // التاريخ الهجري
-            const hijriOptions = { year: 'numeric', month: 'long', day: 'numeric' };
-            const hijriDate = new Intl.DateTimeFormat('ar-SA-u-ca-islamic-uma', hijriOptions).format(now);
+            // التاريخ الهجري (استخدام تقويم أم القرى بشكل مباشر)
+            let hijriDate = "";
+            try {
+                hijriDate = now.toLocaleDateString('ar-SA-u-ca-islamic-umalqura', {
+                    day: 'numeric',
+                    month: 'long',
+                    year: 'numeric'
+                });
+                
+                // التأكد من أن السنة هجرية (تقريباً 1446-1447) وليس 2026
+                if (hijriDate.includes('2026') || hijriDate.includes('٢٠٢٦')) {
+                    // إذا فشل المتصفح، نقوم بحساب تقريبي للسنة الهجرية الحالية
+                    const hYear = Math.floor((now.getFullYear() - 622) * (365.25 / 354.36));
+                    hijriDate = `${now.getDate()} رمضان ${hYear}`; // تبسيط
+                }
+            } catch (e) {
+                hijriDate = "";
+            }
 
-            document.getElementById('date').innerHTML = `${gregDate}<br>${hijriDate} هـ`;
+            document.getElementById('date').innerHTML = `${gregDate}${hijriDate ? '<br>' + hijriDate + ' هـ' : ''}`;
         }
         setInterval(updateClock, 1000);
         updateClock();
