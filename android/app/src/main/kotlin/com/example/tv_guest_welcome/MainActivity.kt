@@ -14,6 +14,7 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.tv_guest_welcome.R
 
 class MainActivity : AppCompatActivity() {
     private lateinit var webView: WebView
@@ -56,25 +57,44 @@ class MainActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_main_web)
         
+        // ربط الـ WebView بالواجهة
+        webView = findViewById(R.id.main_webview)
+        
         // إعدادات الـ WebView لضمان السرعة والتحديث اللحظي
         val settings = webView.settings
         settings.javaScriptEnabled = true
         settings.domStorageEnabled = true
+        settings.setSupportZoom(false)
+        settings.displayZoomControls = false
+        settings.builtInZoomControls = false
         
         // إجبار التطبيق على عدم استخدام التخزين المؤقت لضمان رؤية التحديثات الجديدة
         settings.cacheMode = WebSettings.LOAD_NO_CACHE
         webView.clearCache(true)
         
+        // منع فتح الروابط في متصفح خارجي
+        webView.webViewClient = object : WebViewClient() {
+            override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
+                if (url != null) {
+                    view?.loadUrl(url)
+                }
+                return true
+            }
+
+            override fun onPageFinished(view: WebView?, url: String?) {
+                // شاشة كاملة عند تحميل الصفحة
+                window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                        or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION)
+            }
+        }
+
         // الرابط النهائي - يتم تحديثه تلقائياً من GitHub Pages
         val baseUrl = "https://esalahdal1.github.io/TV-Welcome/" 
         val finalUrl = "$baseUrl?room=$roomNumber"
         
-        webView.webViewClient = object : WebViewClient() {
-            override fun onPageFinished(view: WebView?, url: String?) {
-                // منطق شاشة التوقف: يمكن إضافة مؤقت هنا لإغلاق التطبيق أو تركه
-            }
-        }
-
         webView.loadUrl(finalUrl)
 
         // إغلاق عند اللمس (ليعمل كشاشة توقف تنتهي عند اللمس)
