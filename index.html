@@ -214,21 +214,40 @@
         }
 
         .logo-box {
-            width: 55px;
-            height: 55px;
-            background: white;
-            border-radius: 10px;
+            width: 70px;
+            height: 70px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 14px;
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 5px;
+            padding: 8px;
             overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            border: 2px solid rgba(251, 191, 36, 0.5);
         }
 
         .logo-box img {
             max-width: 100%;
             max-height: 100%;
             object-fit: contain;
+            display: none; /* مخفي افتراضياً حتى يتم التحميل */
+        }
+
+        .logo-box::after {
+            content: 'MRC';
+            font-size: 1.2rem;
+            font-weight: 900;
+            color: #1e3c72;
+            display: block;
+        }
+
+        .logo-box.has-image::after {
+            display: none;
+        }
+
+        .logo-box.has-image img {
+            display: block;
         }
 
         /* تلميح الريموت */
@@ -307,8 +326,8 @@
                 <div class="company-name">شركة مساكن الرفاهية</div>
                 <div class="company-sub">MASAKEN ALRAFAHYA COMPANY</div>
             </div>
-            <div class="logo-box">
-                <img src="https://cewbmexcmhrogbvyfvrg.supabase.co/storage/v1/object/public/assets/mrc_logo.png" alt="Logo">
+            <div id="logoContainer" class="logo-box">
+                <img id="mrcLogo" src="https://cewbmexcmhrogbvyfvrg.supabase.co/storage/v1/object/public/assets/mrc_logo.png" alt="Logo" onload="this.parentElement.classList.add('has-image')">
             </div>
         </div>
     </div>
@@ -345,12 +364,19 @@
             const ampm = hours >= 12 ? 'م' : 'ص';
             
             hours = hours % 12;
-            hours = hours ? hours : 12; // الساعة 0 تصبح 12
+            hours = hours ? hours : 12; 
             
             document.getElementById('time').innerText = `${hours}:${minutes} ${ampm}`;
 
-            const options = { weekday: 'long', month: 'long', day: 'numeric' };
-            document.getElementById('date').innerText = now.toLocaleDateString('ar-SA', options);
+            // التاريخ الميلادي
+            const gregOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            const gregDate = now.toLocaleDateString('ar-SA', gregOptions);
+
+            // التاريخ الهجري
+            const hijriOptions = { year: 'numeric', month: 'long', day: 'numeric' };
+            const hijriDate = new Intl.DateTimeFormat('ar-SA-u-ca-islamic-uma', hijriOptions).format(now);
+
+            document.getElementById('date').innerHTML = `${gregDate}<br>${hijriDate} هـ`;
         }
         setInterval(updateClock, 1000);
         updateClock();
