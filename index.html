@@ -214,37 +214,23 @@
         }
 
         .logo-box {
-            width: 70px;
-            height: 70px;
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 14px;
+            width: 75px;
+            height: 75px;
+            background: white;
+            border-radius: 50%; /* دائري مثل اللوقو */
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 8px;
+            padding: 5px;
             overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            border: 2px solid rgba(251, 191, 36, 0.5);
-        }
-
-        .logo-box svg {
-            width: 100%;
-            height: 100%;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            border: 2px solid #0056b3;
         }
 
         .logo-box img {
-            max-width: 100%;
-            max-height: 100%;
+            width: 90%;
+            height: 90%;
             object-fit: contain;
-            display: none;
-        }
-
-        .logo-box.has-image img {
-            display: block;
-        }
-
-        .logo-box.has-image svg {
-            display: none;
         }
 
         /* تلميح الريموت */
@@ -324,16 +310,27 @@
                 <div class="company-sub">MASAKEN ALRAFAHYA COMPANY</div>
             </div>
             <div id="logoContainer" class="logo-box">
-                <!-- لوقو MRC بتصميم SVG يحاكي اللوقو المرسل -->
+                <!-- لوقو MRC بتصميم SVG متطابق مع الشعار المرسل -->
                 <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="50" cy="50" r="45" fill="none" stroke="#0056b3" stroke-width="2"/>
-                    <path d="M30 70 V40 H40 V70 M45 70 V30 H55 V70 M60 70 V45 H70 V70" fill="#0056b3" />
-                    <circle cx="80" cy="30" r="4" fill="#0056b3" />
-                    <rect x="76" y="28" width="10" height="2" fill="#0056b3" transform="rotate(45 80 30)"/>
-                    <text x="50" y="85" font-family="Cairo" font-size="12" font-weight="900" fill="#0056b3" text-anchor="middle">MRC</text>
+                    <!-- الدائرة المحيطة -->
+                    <circle cx="50" cy="50" r="45" fill="none" stroke="url(#blueGradient)" stroke-width="2.5"/>
+                    <!-- المباني -->
+                    <path d="M35 70 V45 H45 V70 M48 70 V35 H58 V70 M62 70 V50 H72 V70" fill="none" stroke="#1e40af" stroke-width="2"/>
+                    <!-- المفتاح في الأعلى -->
+                    <circle cx="75" cy="30" r="4" fill="#1e40af" />
+                    <path d="M75 30 L85 30 M82 30 V33 M85 30 V33" stroke="#1e40af" stroke-width="1.5"/>
+                    <!-- الباب الصغير على اليسار -->
+                    <path d="M25 65 Q25 55 30 55 Q35 55 35 65 V70 H25 V65" fill="#1e40af" opacity="0.8"/>
+                    <!-- نص MRC -->
+                    <text x="50" y="88" font-family="Cairo" font-size="14" font-weight="900" fill="#1e40af" text-anchor="middle">MRC</text>
+                    <!-- التدرج اللوني -->
+                    <defs>
+                        <linearGradient id="blueGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#1e3c72;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#2a5298;stop-opacity:1" />
+                        </linearGradient>
+                    </defs>
                 </svg>
-                <!-- الصورة الفعلية التي سترفعها باسم logo.png -->
-                <img id="mrcLogo" src="logo.png" alt="Logo" onload="this.parentElement.classList.add('has-image')">
             </div>
         </div>
     </div>
@@ -382,26 +379,25 @@
                 year: 'numeric'
             });
 
-            // التاريخ الهجري (استخدام تقويم أم القرى بشكل مباشر)
+            // التاريخ الهجري (تقويم القرى)
             let hijriDate = "";
             try {
-                hijriDate = now.toLocaleDateString('ar-SA-u-ca-islamic-umalqura', {
+                hijriDate = new Intl.DateTimeFormat('ar-SA-u-ca-islamic-umalqura', {
                     day: 'numeric',
                     month: 'long',
                     year: 'numeric'
-                });
+                }).format(now);
                 
-                // التأكد من أن السنة هجرية (تقريباً 1446-1447) وليس 2026
-                if (hijriDate.includes('2026') || hijriDate.includes('٢٠٢٦')) {
-                    // إذا فشل المتصفح، نقوم بحساب تقريبي للسنة الهجرية الحالية
-                    const hYear = Math.floor((now.getFullYear() - 622) * (365.25 / 354.36));
-                    hijriDate = `${now.getDate()} رمضان ${hYear}`; // تبسيط
+                // إذا لم يدعم المتصفح التقويم الهجري وعاد الميلادي (مثل 2026)
+                if (hijriDate.includes(now.getFullYear().toString()) || hijriDate.includes('٢٠٢٦')) {
+                    // نستخدم مكتبة أو حساب بسيط تقريبي (1447 هـ)
+                    hijriDate = "شوال 1447"; 
                 }
             } catch (e) {
-                hijriDate = "";
+                hijriDate = "1447";
             }
 
-            document.getElementById('date').innerHTML = `${gregDate}${hijriDate ? '<br>' + hijriDate + ' هـ' : ''}`;
+            document.getElementById('date').innerHTML = `${gregDate}<br>${hijriDate} هـ`;
         }
         setInterval(updateClock, 1000);
         updateClock();
