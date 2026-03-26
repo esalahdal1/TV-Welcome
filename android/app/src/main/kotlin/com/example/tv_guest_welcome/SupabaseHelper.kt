@@ -1,6 +1,10 @@
 package com.example.tv_guest_welcome
 
-import okhttp3.*
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.Callback
+import okhttp3.Call
+import okhttp3.Response
 import org.json.JSONArray
 import java.io.IOException
 
@@ -24,7 +28,7 @@ class SupabaseHelper {
             override fun onResponse(call: Call, response: Response) {
                 val body = response.body?.string()
                 try {
-                    val jsonArray = JSONArray(body)
+                    val jsonArray = JSONArray(body ?: "[]")
                     if (jsonArray.length() > 0) {
                         val fullName = jsonArray.getJSONObject(0).getString("full_name")
                         callback(fullName)
