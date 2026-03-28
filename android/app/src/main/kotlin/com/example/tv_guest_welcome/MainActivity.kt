@@ -19,6 +19,7 @@ import android.content.pm.PackageManager
 import android.view.KeyEvent
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
+import com.example.tv_guest_welcome.R
 
 class MainActivity : AppCompatActivity() {
     private lateinit var webView: WebView
