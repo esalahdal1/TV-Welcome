@@ -23,10 +23,16 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
         cache: gradle
+      env:
+        FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
     - name: Build with Gradle
-      run: gradle assembleDebug
-      working-directory: android
+      uses: gradle/gradle-build-action@v3
+      with:
+        arguments: assembleDebug
+        build-root-directory: android
+      env:
+        FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
     - name: Upload APK to Artifacts
       uses: actions/upload-artifact@v4
