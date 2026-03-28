@@ -14,7 +14,6 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.tv_guest_welcome.R
 
 import android.content.pm.PackageManager
 import android.view.KeyEvent
